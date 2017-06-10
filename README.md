@@ -1,2 +1,2 @@
-# python_spider_geek_college_course
-Python爬取极客学院课程
+# Python爬取极客学院课程
+由于极客学院的课程比较多，课程库的排序又不是很有规则，故开发此程序对课程进行整理，快速找到自己需要的课程。
