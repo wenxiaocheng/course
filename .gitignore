@@ -2,7 +2,7 @@
 ./data
 ./test
 *.html
-./idea
+.idea/
 
 # =========================python================================
 # Byte-compiled / optimized / DLL files
