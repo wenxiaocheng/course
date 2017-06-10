@@ -1,6 +1,7 @@
 # ==============================DIY=======================================
 ./data
 ./test
+*.html
 
 # =============================JetBrains===================================
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
