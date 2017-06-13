@@ -7,11 +7,11 @@ from scrapy_redis.spiders import RedisSpider
 from course.items import GeekItem
 
 
-class GeekSpider(CrawlSpider):
-    # class GeekSpider(RedisSpider):  # use redis
+# class GeekSpider(CrawlSpider):
+class GeekSpider(RedisSpider):  # use redis
     name = 'geek'
     redis_key = 'geek:start_urls'
-    start_urls = ['http://www.jikexueyuan.com/course/python/?pageNum={}'.format(i) for i in range(1, 5)]
+    start_urls = ['http://www.jikexueyuan.com/course/python/?pageNum={}'.format(i) for i in range(1, 2)]
 
     def parse(self, response):
         selector = Selector(response)
