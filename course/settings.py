@@ -54,8 +54,10 @@ ROBOTSTXT_OBEY = False
 # DOWNLOADER_MIDDLEWARES = {
 #    'course.middlewares.MyCustomDownloaderMiddleware': 543,
 # }
+
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'course.middlewares.UserAgentmiddleware': 400
 }
 
 # Enable or disable extensions
@@ -67,8 +69,12 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'course.pipelines.GeekCollegePipeline': 300,
+    'course.pipelines.GeekCollegePipeline': 300
 }
+# # 将清除的项目在redis进行处理
+# ITEM_PIPELINES = {
+#     'scrapy_redis.pipelines.RedisPipeline': 300
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -98,14 +104,13 @@ MONGODB_PORT = 27017
 MONGODB_DBNAME = 'course'
 MONGODB_DOCNAME = 'GeekCollege'
 
-
 # ========================== redis configur e==================================
 # Enables scheduling storing requests queue in redis.
-# 启用在redis中存储请求队列的调度。
+# 启用Redis调度存储请求队列
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 
 # Ensure all spiders share same duplicates filter through redis.
-# 确保所有蜘蛛共享相同的重复项通过redis过滤。
+# 确保所有的爬虫通过Redis去重。
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 
 # Don't cleanup redis queues, allows to pause/resume crawls.
@@ -113,21 +118,27 @@ DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 SCHEDULER_PERSIST = True
 
 # Schedule requests using a priority queue. (default)
-# 使用优先级队列排定请求。 （默认）
+# 使用优先级调度请求队列（默认）
 SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
-
 # Alternative queues.
-# 替代队列。
-#SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.FifoQueue'
-#SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.LifoQueue'
+# 可选用的其它队列
+# SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.FifoQueue'
+# SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.LifoQueue'
 
+# ============================ 使用redis分布式爬取设置 ===============================
 # Specify the full Redis URL for connecting (optional).
 # 指定要连接的完整Redis URL（可选）。
 # If set, this takes precedence over the REDIS_HOST and REDIS_PORT settings.
 # 如果设置，则优先于REDIS_HOST和REDIS_PORT设置。
-#REDIS_URL = 'redis://user:pass@hostname:9001'
+
+# slave 配置
+# 指定用于连接redis的URL（可选）
+# 如果设置此项，则此项优先级高于设置的REDIS_HOST 和 REDIS_PORT
+# REDIS_URL = 'redis://user:pass@hostname:9001'
+# REDIS_URL = 'redis://host_ip:6379'
 REDIS_URL = None
+
+# master 配置
+# 指定连接到redis时使用的端口和地址（可选）
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379
-
-

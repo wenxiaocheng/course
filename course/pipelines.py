@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from scrapy.exceptions import DropItem
 from scrapy.conf import settings
+from scrapy_redis.pipelines import RedisPipeline
 import pymongo
 import re
-import csv
-import os
+
+
+# import csv
+# import os
 
 
 # Define your item pipelines here
@@ -13,16 +16,15 @@ import os
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+# class GeekCollegePipeline(RedisPipeline):
 class GeekCollegePipeline(object):
-    def __init__(self):
+    def open_spider(self, spider):
+        '''在spider开始后执行,一般用来连接数据库等操作。
+        INFO: Spider opened ---> 调用本函数'''
         self.host = settings['MONGODB_HOST']
         self.port = settings['MONGODB_PORT']
         self.db_name = settings['MONGODB_DBNAME']
         self.doc_name = settings['MONGODB_DOCNAME']
-
-    def open_spider(self, spider):
-        '''在spider开始后执行,一般用来连接数据库等操作。
-        INFO: Spider opened ---> 调用本函数'''
         client = pymongo.MongoClient(host=self.host, port=self.port)
         tdb = client[self.db_name]
         self.post = tdb[self.doc_name]
